@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 	"math/rand"
+	"os"
 )
 
 const (
@@ -28,7 +29,7 @@ func main(){
 		if ones == 1{
 			results[1]++
 		}else if ones == 2{
-			results[2]++
+			results[2]++	
 		}else if ones == 3{
 			results[4]++
 		}else if (rolls[0] == rolls[1]) && (rolls[0] == rolls[2]){
@@ -37,10 +38,18 @@ func main(){
 			results[0]++
 		}
 	}
-	fmt.Printf("$0:\tTotal: %d\tPercent: %f\n", rolls[0], rolls[0]/trials)
-	fmt.Printf("$1:\tTotal: %d\tPercent: %f\n", rolls[1], rolls[1]/trials)
-	fmt.Printf("$2:\tTotal: %d\tPercent: %f\n", rolls[2], rolls[2]/trials)
-	fmt.Printf("$5:\tTotal: %d\tPercent: %f\n", rolls[3], rolls[3]/trials)
-	fmt.Printf("$21:\tTotal: %d\tPercent: %f\n", rolls[4], rolls[4]/trials)
+	outf,_ := os.Create("data/graph.dat")
+	defer outf.Close()
+	outf.Write([]byte{})
+	outf.Write([]byte(fmt.Sprintf("0\t%f\n", float64(results[0])/float64(trials))))
+	outf.Write([]byte(fmt.Sprintf("1\t%f\n", float64(results[1])/float64(trials))))
+	outf.Write([]byte(fmt.Sprintf("2\t%f\n", float64(results[2])/float64(trials))))
+	outf.Write([]byte(fmt.Sprintf("5\t%f\n", float64(results[3])/float64(trials))))
+	outf.Write([]byte(fmt.Sprintf("21\t%f\n", float64(results[4])/float64(trials))))
+	fmt.Printf("$0:\tTotal: %d\tFrequency: %f\n", results[0], float64(results[0])/float64(trials))
+	fmt.Printf("$1:\tTotal: %d\tFrequency: %f\n", results[1], float64(results[1])/float64(trials))
+	fmt.Printf("$2:\tTotal: %d\tFrequency: %f\n", results[2], float64(results[2])/float64(trials))
+	fmt.Printf("$5:\tTotal: %d\tFrequency: %f\n", results[3], float64(results[3])/float64(trials))
+	fmt.Printf("$21:\tTotal: %d\tFrequency: %f\n", results[4], float64(results[4])/float64(trials))
 
 }
